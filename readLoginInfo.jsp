@@ -31,7 +31,7 @@ if(!rs.next())
 
 else
 {
-	out.println("Successful login");
+	response.sendRedirect("../index.html");
 }
   } catch(Exception e) {
     out.println(e.getMessage());
