@@ -24,7 +24,7 @@ out.println("opened");
 Statement st=conn.createStatement();
 
 	int i=st.executeUpdate("insert into users(userName, userPassword, userEmail, informationType, diagnosisType, stageType, userRole)values('"+username+"','"+password+"','"+email+"','"+level+"','"+diagnostic+"','"+diagnostic+"','"+role+"')");
-	out.println("data inserted");
+	response.sendRedirect("../index.html");
   }
   catch(Exception e) {
     out.println(e.getMessage());
