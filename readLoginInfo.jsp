@@ -2,6 +2,7 @@
 <%@ page import="java.io.*" %> 
 
 <%
+HttpSession sess = request.getSession();
 String email = request.getParameter("email");
 String password = request.getParameter("psw");
 
@@ -31,7 +32,10 @@ if(!rs.next())
 
 else
 {
-	response.sendRedirect("../index.html");
+	out.println("Successful login");
+	 sess.setAttribute("ID", rs.getString("userID"));
+	 sess.setAttribute("type", rs.getString("userRole"));
+	 response.sendRedirect("../index.html");
 }
   } catch(Exception e) {
     out.println(e.getMessage());

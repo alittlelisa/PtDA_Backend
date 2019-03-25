@@ -20,7 +20,6 @@ String pword="root";
 
 Connection conn = DriverManager.getConnection(url, user, pword);
 
-out.println("opened");
 Statement st=conn.createStatement();
 
 	int i=st.executeUpdate("insert into users(userName, userPassword, userEmail, informationType, diagnosisType, stageType, userRole)values('"+username+"','"+password+"','"+email+"','"+level+"','"+diagnostic+"','"+diagnostic+"','"+role+"')");
