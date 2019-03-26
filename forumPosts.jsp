@@ -41,7 +41,7 @@
 <nav class="w3-bar w3-black">
   <a href="../index.html" class="w3-button w3-bar-item">Home</a>
   <a href="../html/information.html" class="w3-button w3-bar-item">Information Content</a>
-  <a href="../html/decision.html" class="w3-button w3-bar-item">Decision Guide</a>
+  <a href="decision.jsp" class="w3-button w3-bar-item">Decision Guide</a>
   <a href="summary.jsp" class="w3-button w3-bar-item">Summary</a>
   <a href="forumPosts.jsp" class="w3-button w3-bar-item">Forums</a>
   <a href="../html/register.html" class="w3-button w3-bar-item">Sign Up</a>
