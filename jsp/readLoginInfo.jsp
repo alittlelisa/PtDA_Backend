@@ -11,8 +11,8 @@ String password = request.getParameter("psw");
 Class.forName("com.mysql.jdbc.Driver").newInstance(); 
 
 String url="jdbc:mysql://127.0.0.1:3306/mydb";
-String user="root";
-String pword="root";
+String user="testUser";
+String pword="password";
 
 Connection conn = DriverManager.getConnection(url, user, pword);
 
