@@ -61,7 +61,7 @@ String userID = (String)sess.getAttribute("ID");
 
 Class.forName("com.mysql.jdbc.Driver").newInstance(); 
 
-String url="jdbc:mysql://localhost:3306/mydb";
+String url="jdbc:mysql://127.0.0.1:3306/mydb";
 String user="root";
 String pword="root";
 
