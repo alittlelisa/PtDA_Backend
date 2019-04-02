@@ -58,7 +58,7 @@
 
 			String url="jdbc:mysql://localhost:3306/mydb";
 			String user="root";
-			String pword="password";
+			String pword="root";
 
 			Connection conn = DriverManager.getConnection(url, user, pword);
 
