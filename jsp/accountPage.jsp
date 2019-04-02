@@ -40,7 +40,7 @@
 <!-- Basic Navigation -->
 <nav class="w3-bar w3-black">
   <a href="../index.html" class="w3-button w3-bar-item">Home</a>
-  <a href="../html/account.html" class="w3-button w3-bar-item">Your account</a>
+    <a href="accountPage.jsp" class="w3-button w3-bar-item">Your account</a>
   <a href="decision.jsp" class="w3-button w3-bar-item">Decision Guide</a>
   <a href="summary.jsp" class="w3-button w3-bar-item">Summary</a>
   <a href="forumPosts.jsp" class="w3-button w3-bar-item">Forums</a>
