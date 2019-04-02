@@ -37,21 +37,21 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="../js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
 <script src="../js/plugins.js"></script>
-<script src="../js/summary.js"></script>
-<script type="text/javascript" src="../js/summary.js"></script>
+<script type="text/javascript" src="../js/summaryJS.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 
 
 <!-- Basic Navigation -->
 <nav class="w3-bar w3-black">
-  <a href="information.html" class="w3-button w3-bar-item">Information Content</a>
+  <a href="../index.html" class="w3-button w3-bar-item">Home</a>
+  <a href="../html/account.html" class="w3-button w3-bar-item">Your account</a>
   <a href="decision.jsp" class="w3-button w3-bar-item">Decision Guide</a>
-  <a href="../jsp/summary.jsp" class="w3-button w3-bar-item">Summary</a>
-  <a href="../jsp/forumPosts.jsp" class="w3-button w3-bar-item">Forums</a>
-  <a href="register.html" class="w3-button w3-bar-item">Sign Up</a>
-  <a href="login.html" class="w3-button w3-bar-item">Sign In</a>
-  <a href="contact.html" class="w3-button w3-bar-item">Contact</a>
-  <a href="doctor.html" class="w3-button w3-bar-item">Doctor Portal</a>
+  <a href="summary.jsp" class="w3-button w3-bar-item">Summary</a>
+  <a href="forumPosts.jsp" class="w3-button w3-bar-item">Forums</a>
+  <a href="../html/register.html" class="w3-button w3-bar-item">Sign Up</a>
+  <a href="../html/login.html" class="w3-button w3-bar-item">Sign In</a>
+  <a href="../html/contact.html" class="w3-button w3-bar-item">Contact</a>
+  <a href="doctor.jsp" class="w3-button w3-bar-item">Doctor Portal</a>
 </nav>
   <%
 HttpSession sess = request.getSession();
@@ -76,9 +76,6 @@ ps.setString(1, userID);
 ResultSet rs = ps.executeQuery();
 
 out.println("<div id = 'content'>");
-out.println("<table class = 'gridtable' style = 'width: 100%'>");
-out.println("<tr> <th>Summary #</th><th>Overall Score</th><th>Suggested Treatment</th></tr>");
-
 while(rs.next())
 {
 	String num = rs.getString("summaryID");
@@ -86,19 +83,26 @@ while(rs.next())
 	results = results.replace("[", "");
 	results = results.replace("]", "");
 	results = results.replace("\"", "");
+	
+	String values = rs.getString("questionValues");
+	values = values.replace("[", "");
+	values = values.replace("]", "");
+	values = values.replace("\"", "");
+	
 	int sum = 0;
 	String data [] = results.split(",");
+	String questionVals [] = values.split(",");
 	for(int i = 0; i < data.length; i++)
 	{
-		sum += Integer.parseInt(data[i]);
+		sum += Integer.parseInt(data[i])*Integer.parseInt(questionVals[i]);
 	}
 	String suggestion = "Surgery";
-	if(sum >= 11)
+	if(sum >= 0)
 	{
 		suggestion = "Medication";
 	}
-	out.println("<tr> <td>"+num+"</td> <td>"+sum+"</td><td>"+suggestion+"</td></tr>");
-	out.println("</table>");
+	out.println("<p id = 'summaryTest' >Summary number: "+num+"</p> <p>Overall Score: "+sum+"</p><p>Suggested Treatment: "+suggestion+"</p> <br><br>");
+}
 	out.println("</div>");
 	out.println("<div id = 'editor'></div>");
 	out.println("<button id = 'cmd'> Export to PDF </button>");
@@ -114,7 +118,6 @@ while(rs.next())
 	out.println("<input type = 'submit' value = 'Send'>");
 	out.println("</form>");
 	out.println("<button id='email'>Email</button>");
-}
   } catch(Exception e) {
     out.println(e.getMessage());
   }

@@ -2,11 +2,11 @@
 <%@ page import="java.io.*" %> 
 
 <%
+HttpSession sess = request.getSession();
+String id = (String)sess.getAttribute("ID");
 String username = request.getParameter("name");
-String age = request.getParameter("age");
 String role = request.getParameter("role");
 String level = request.getParameter("level");
-String diagnostic = request.getParameter("diagnostic");
 String email = request.getParameter("email");
 String password = request.getParameter("psw");
 
@@ -20,9 +20,15 @@ String pword="root";
 
 Connection conn = DriverManager.getConnection(url, user, pword);
 
-Statement st=conn.createStatement();
 
-	int i=st.executeUpdate("insert into users(userName, userPassword, userEmail, informationType, diagnosisType, stageType, userRole)values('"+username+"','"+password+"','"+email+"','"+level+"','"+diagnostic+"','"+diagnostic+"','"+role+"')");
+	String sql = "Update users set userName=?, userEmail=?, informationType=?, userPassword = ?, userRole=? where userID = +"+id;
+	PreparedStatement ps =conn.prepareStatement(sql);
+	ps.setString(1,username);
+	ps.setString(2,email);
+	ps.setString(3, level);
+	ps.setString(4, password);
+	ps.setString(5, role);
+	int i = ps.executeUpdate();
 	response.sendRedirect("../index.html");
   }
   catch(Exception e) {

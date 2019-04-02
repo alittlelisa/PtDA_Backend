@@ -38,15 +38,15 @@
 
 <!-- Basic Navigation -->
 <nav class="w3-bar w3-black">
-  <a href="index.html" class="w3-button w3-bar-item">Home</a>
-  <a href="information.html" class="w3-button w3-bar-item">Information Content</a>
-  <a href="decision.html" class="w3-button w3-bar-item">Decision Guide</a>
-  <a href="../jsp/summary.jsp" class="w3-button w3-bar-item">Summary</a>
-  <a href="../jsp/forumPosts.jsp" class="w3-button w3-bar-item">Forums</a>
-  <a href="register.html" class="w3-button w3-bar-item">Sign Up</a>
-  <a href="login.html" class="w3-button w3-bar-item">Sign In</a>
-  <a href="contact.html" class="w3-button w3-bar-item">Contact</a>
-  <a href="doctor.html" class="w3-button w3-bar-item">Doctor Portal</a>
+  <a href="../index.html" class="w3-button w3-bar-item">Home</a>
+    <a href="../html/account.html" class="w3-button w3-bar-item">Your account</a>
+  <a href="decision.jsp" class="w3-button w3-bar-item">Decision Guide</a>
+  <a href="summary.jsp" class="w3-button w3-bar-item">Summary</a>
+  <a href="forumPosts.jsp" class="w3-button w3-bar-item">Forums</a>
+  <a href="../html/register.html" class="w3-button w3-bar-item">Sign Up</a>
+  <a href="../html/login.html" class="w3-button w3-bar-item">Sign In</a>
+  <a href="../html/contact.html" class="w3-button w3-bar-item">Contact</a>
+  <a href="doctor.jsp" class="w3-button w3-bar-item">Doctor Portal</a>
 </nav>
 
 <%
@@ -77,14 +77,42 @@
 			rs.beforeFirst();
 			
 			String questions [] = new String[size];
+			int originalValues [] = new int[size];
+			int values [] = new int[size];
 			
 			int counter = 0;
 
 while(rs.next())
 {
 	questions[counter] = rs.getString("questionText");
+	values [counter] = Math.abs(Integer.parseInt(rs.getString("value")));
+	originalValues [counter] = Integer.parseInt(rs.getString("value"));
 	counter++;
 }
+
+
+for(int i = 0; i < size; i++)
+{
+	for(int j = 0; j < size; j++)
+	{
+		if((values[i] < values[j]) && (i != j))
+		{
+		
+			int tempVal = values[j];
+			values[j] = values[i];
+			values[i] = tempVal;
+			
+			String tempText = questions[j];
+			questions[j] = questions[i];
+			questions[i] = tempText;
+			
+			tempVal = originalValues[j];
+			originalValues[j] = originalValues[i];
+			originalValues[i] = tempVal;
+		}
+	}
+}
+
 	out.println("<form action = 'decisionGuide.jsp'>");
 	out.println("<center>");
 	out.println("<p id = 'question'></p>");
@@ -98,6 +126,7 @@ while(rs.next())
 	out.println("<button id = 'next' type = 'button' onClick = 'nextQuestion()'> Next Question </button>");
 	out.println("<button id = 'finish' type = 'submit'> Complete </button> </center>");
 	out.println("<input type = 'hidden' id ='responseField' name = 'responseField' value = '1'>");
+	out.println("<input type = 'hidden' id ='valueField' name = 'valueField' value = '1'>");
 	out.println("</form>");
 	
 	
@@ -108,16 +137,21 @@ while(rs.next())
 		out.println("'"+questions[i]+"',");
 	}
 	out.println("'"+questions[size-1]+"'];");
+		out.println("var values = [");
+	for(int i = 0; i < size-1; i++)
+	{
+		out.println("'"+originalValues[i]+"',");
+	}
+	out.println("'"+originalValues[size-1]+"'];");
 	out.println("$(window).on('load', function(){ document.getElementById('question').innerHTML = questions[currentQuestion]; document.getElementById('finish').disabled = true;});");
 	
 	out.println("function nextQuestion() {");
 	out.println("if(currentQuestion < questions.length) {  var radios = document.getElementsByName('Score');");
 	out.println("for(var i = 0; i < 5; i++) {if(radios[i].checked) { responses[currentQuestion] = radios[i].value;}}");
-	out.println("currentQuestion++; if(currentQuestion != questions.length){document.getElementById('question').innerHTML = questions[currentQuestion];}}");
-	out.println("if(currentQuestion == 3) {if(parseInt(responses[0])+parseInt(responses[1])+parseInt(responses[2]) >= 12){"); 
-	out.println("for(var i = 2; i < "+size+"; i++) {responses[i] = '1';}}} completed();}");
+	out.println("currentQuestion++; if(currentQuestion != questions.length){document.getElementById('question').innerHTML = questions[currentQuestion];}}"); 
+	out.println("completed();}");
 	
-	out.println("function completed(){if(typeof(responses["+size+"-1])!='undefined') {document.getElementById('responseField').value = (JSON.stringify(responses)); document.getElementById('next').disabled = true; document.getElementById('finish').disabled = false;}}");
+	out.println("function completed(){if(typeof(responses["+size+"-1])!='undefined') {document.getElementById('responseField').value = (JSON.stringify(responses)); document.getElementById('valueField').value = (JSON.stringify(values)); document.getElementById('next').disabled = true; document.getElementById('finish').disabled = false;}}");
 
 	out.println("</script>");
 

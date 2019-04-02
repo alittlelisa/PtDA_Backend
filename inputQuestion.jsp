@@ -4,6 +4,7 @@
 <%
 String inputText = request.getParameter("newQuestion");
 String questionType = request.getParameter("treatment");
+int value = Integer.parseInt(request.getParameter("value"));
 
   try {
 
@@ -17,7 +18,7 @@ Connection conn = DriverManager.getConnection(url, user, pword);
 
 Statement st=conn.createStatement();
 
-	int i=st.executeUpdate("insert into questions(questionText, suggestedTreatment)values('"+inputText+"','"+questionType+"')");
+	int i=st.executeUpdate("insert into questions(questionText, suggestedTreatment, value)values('"+inputText+"','"+questionType+"','"+value+"')");
 	
 	response.sendRedirect("../index.html");
   }

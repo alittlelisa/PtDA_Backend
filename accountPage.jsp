@@ -49,11 +49,11 @@
   <a href="../html/contact.html" class="w3-button w3-bar-item">Contact</a>
   <a href="doctor.jsp" class="w3-button w3-bar-item">Doctor Portal</a>
 </nav>
-	
+	<p>Click on any element to update your information</p>
 	<% 
-	String postID = request.getParameter("postID");
 	  try {
-
+			HttpSession sess = request.getSession();
+			String id = (String)sess.getAttribute("ID");
 			Class.forName("com.mysql.jdbc.Driver").newInstance(); 
 
 			String url="jdbc:mysql://localhost:3306/mydb";
@@ -63,81 +63,27 @@
 			Connection conn = DriverManager.getConnection(url, user, pword);
 
 
-			String sql = "SELECT * FROM posts WHERE postID = ?";
-			
+			String sql = "SELECT * FROM users WHERE userID = ?";
+
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, postID);
+			ps.setString(1, id);
 
 			ResultSet rs = ps.executeQuery();
 
-			out.println("<center>");
-			while(rs.next())
-			{
-				String currentTitle = rs.getString("Title");
-				String datePosted = rs.getString("timeStamp");
-				String content = rs.getString("postContent");
-				String posterID = rs.getString("posterID");
-				
-				out.println("<h1>"+currentTitle+"</h1><p>"+content+"</p>");
-				
-				String sql2 = "SELECT * From users WHERE userID = ?";
-			
-				PreparedStatement ps2 = conn.prepareStatement(sql2);
-				ps2.setString(1, posterID);
-				
-				ResultSet rs2 = ps2.executeQuery();
-				
-				while(rs2.next())
-				{
-					String name = rs2.getString("userName");
-					out.println("<p> posted by "+name+"</p>");
-					
-					String sql3 = "SELECT * FROM comments WHERE postID = ?";
-					
-					PreparedStatement ps3 = conn.prepareStatement(sql3);
-					ps3.setString(1, postID);
-					
-					ResultSet rs3 = ps3.executeQuery();
-					
-					out.println("<b>Comments: </b>");
-					
-					while(rs3.next())
-					{
-						String comments = rs3.getString("commentContent");
-						String commenterID = rs3.getString("commenterID");
-						
-						String sql4 = "SELECT * FROM users WHERE userID = ?";
-						
-						PreparedStatement ps4 = conn.prepareStatement(sql4);
-						ps4.setString(1, commenterID);
-						
-						ResultSet rs4 = ps4.executeQuery();
-						
-						out.println("<p>"+comments+"</p>");
-						
-						while(rs4.next())
-						{
-							String commenter = rs4.getString("userName");
-							out.println("<p> posted by: "+commenter+"</p><br>");
-						}
-						
-						
-					}
-				}
-				
-				out.println("</center>");
-			out.println("<form action = 'submitComment.jsp'>");
-			out.println("<input type = 'hidden' id ='postID' name = 'postID' value = "+postID+">");
-			out.println("<input type = 'hidden' id ='posterID' name = 'posterID' value = "+posterID+">");
-			out.println("<label for='commentText'><b>Create Comment</b></label>");
-			out.println("<input type = 'text' name = 'commentText' placeholder = 'Enter comment here'>");
-			out.println("<button type = 'submit' > Post Comment </button>");
-			out.println("</form>");
-			}
-			
-			
 
-			
+while(rs.next())
+{
+	String name = rs.getString("userName");
+	String email = rs.getString("userEmail");
+	String informationType = rs.getString("informationType");
+	
+	out.println("<a href = 'changeName.jsp' class = 'button'>Name: "+name+"</submit><br>");
+	out.println("<a href = 'changeEmail.jsp' class = 'button'>Email Address: "+email+"</submit><br>");
+	out.println("<a href = 'changeInformation.jsp' class = 'button'>Information Type: "+informationType+"</submit><br>");
+	out.println("<a href = 'changePassword.jsp' class = 'button'>Change password</submit><br>");
+	out.println("<a href = '../html/updateProfile.html' class = 'button'>Update my whole profile</submit><br>");
+
+}
   } catch(Exception e) {
     out.println(e.getMessage());
   }
@@ -145,3 +91,5 @@
 	%>
 
 </body>
+
+</html>

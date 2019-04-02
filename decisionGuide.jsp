@@ -7,6 +7,7 @@ HttpSession sess = request.getSession();
 String id = (String)sess.getAttribute("ID");
 try {
 	String responses = request.getParameter("responseField");
+	String vals = request.getParameter("valueField");
 
 Class.forName("com.mysql.jdbc.Driver").newInstance(); 
 
@@ -17,13 +18,13 @@ String pword="root";
 Connection conn = DriverManager.getConnection(url, user, pword);
 
 
-String sql = "INSERT INTO summaries(results, Users_userID, status) values ('"+responses+"','"+id+"', 'complete')";
+String sql = "INSERT INTO summaries(results, Users_userID, questionValues, status) values ('"+responses+"','"+id+"','"+vals+"', 'complete')";
 
 Statement st = conn.createStatement();
 
 int i = st.executeUpdate(sql);
 
-response.sendRedirect("../html/summary.html");
+response.sendRedirect("summary.jsp");
 
   } catch(Exception e) {
     out.println(e.getMessage());
