@@ -7,7 +7,8 @@ String currentUser = (String)sess.getAttribute("ID");
 String inputText = request.getParameter("commentText");
 String postID = request.getParameter("postID");
 String posterID = request.getParameter("posterID");
-out.println(posterID);
+inputText = inputText.replace("'", "\\'");
+out.println(inputText);
   try {
 
 Class.forName("com.mysql.jdbc.Driver").newInstance(); 

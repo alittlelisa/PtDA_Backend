@@ -9,6 +9,10 @@ String level = request.getParameter("level");
 String diagnostic = request.getParameter("diagnostic");
 String email = request.getParameter("email");
 String password = request.getParameter("psw");
+username = username.replace("'", "\\'");
+diagnostic = diagnostic.replace("'", "\\'");
+email = email.replace("'", "\\'");
+password = password.replace("'", "\\'");
 
   try {
 

@@ -4,6 +4,7 @@
 <%
 String inputText = request.getParameter("newQuestion");
 String questionType = request.getParameter("treatment");
+inputText = inputText.replace("'", "\\'");
 int value = Integer.parseInt(request.getParameter("value"));
 
   try {

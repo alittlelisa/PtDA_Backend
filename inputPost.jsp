@@ -5,7 +5,9 @@
 HttpSession sess = request.getSession();
 String currentUser = (String)sess.getAttribute("ID");
 String inputText = request.getParameter("inputText");
+inputText = inputText.replace("'", "\\'");
 String title = request.getParameter("postTitle");
+title = title.replace("'", "\\'");
   try {
 
 Class.forName("com.mysql.jdbc.Driver").newInstance(); 
